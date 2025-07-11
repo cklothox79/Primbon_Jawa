@@ -1,5 +1,6 @@
 import streamlit as st
 from utils import hitung_weton, cari_jodoh, tafsir_mimpi
+from datetime import date
 
 st.set_page_config(page_title="Primbon Jawa", layout="centered")
 st.title("🧙 Primbon Jawa Lengkap")
@@ -8,7 +9,12 @@ menu = st.selectbox("Pilih Menu", ["Wetonan", "Kecocokan Jodoh", "Tafsir Mimpi"]
 
 if menu == "Wetonan":
     nama = st.text_input("Nama lengkap")
-    tanggal_lahir = st.date_input("Tanggal lahir")
+    tanggal_lahir = st.date_input(
+        "Tanggal lahir",
+        value=date(1990, 1, 1),
+        min_value=date(1950, 1, 1),
+        max_value=date.today()
+    )
     if st.button("Hitung Weton"):
         hasil = hitung_weton(tanggal_lahir)
         st.success(f"Weton: {hasil['weton']}")
