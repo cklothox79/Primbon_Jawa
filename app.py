@@ -1,14 +1,30 @@
-# app.py
 import streamlit as st
-from utils import hitung_weton
+from utils import hitung_weton, cari_jodoh, tafsir_mimpi
 
-st.title("Primbon Jawa Lengkap")
+st.set_page_config(page_title="Primbon Jawa", layout="centered")
+st.title("🧙 Primbon Jawa Lengkap")
 
-nama = st.text_input("Masukkan nama lengkap:")
-tanggal_lahir = st.date_input("Tanggal lahir:")
+menu = st.selectbox("Pilih Menu", ["Wetonan", "Kecocokan Jodoh", "Tafsir Mimpi"])
 
-if st.button("Cek Weton"):
-    weton_info = hitung_weton(tanggal_lahir)
-    st.subheader(f"Weton: {weton_info['weton']}")
-    st.write(f"Neptu: {weton_info['neptu']}")
-    st.write(f"Sifat: {weton_info['sifat']}")
+if menu == "Wetonan":
+    nama = st.text_input("Nama lengkap")
+    tanggal_lahir = st.date_input("Tanggal lahir")
+    if st.button("Hitung Weton"):
+        hasil = hitung_weton(tanggal_lahir)
+        st.success(f"Weton: {hasil['weton']}")
+        st.info(f"Neptu: {hasil['neptu']} | Sifat: {hasil['sifat']}")
+
+elif menu == "Kecocokan Jodoh":
+    nama1 = st.text_input("Nama Anda")
+    weton1 = st.text_input("Weton Anda (cth: Senin Kliwon)")
+    nama2 = st.text_input("Nama Pasangan")
+    weton2 = st.text_input("Weton Pasangan")
+    if st.button("Cek Kecocokan"):
+        hasil = cari_jodoh(weton1, weton2)
+        st.success(f"Kecocokan: {hasil}")
+
+elif menu == "Tafsir Mimpi":
+    mimpi = st.text_input("Tuliskan mimpi Anda")
+    if st.button("Tafsirkan"):
+        hasil = tafsir_mimpi(mimpi)
+        st.success(f"Arti mimpi: {hasil}")
