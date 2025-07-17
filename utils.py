@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 
-# Load file kalender_jawa.csv (pastikan berada di root folder)
+# Load kalender Jawa dari file CSV
 kalender_df = pd.read_csv("kalender_jawa.csv")
 
 def lookup_kalender(tanggal_str):
