@@ -30,7 +30,7 @@ if nama and tanggal_lahir:
         with col2:
             st.metric("Pasaran", hasil['pasaran'])
 
-        st.markdown("""
+        st.markdown(f"""
             <div style='text-align: center; font-size: 20px; margin-top: 20px;'>
-                🔹 Jumlah Neptu: <b style='color: green;'>%d</b>
+                🔹 Jumlah Neptu: <b style='color: green;'>{hasil['neptu']}</b>
             </div>
