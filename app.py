@@ -1,28 +1,36 @@
 import streamlit as st
-from utils import lookup_kalender_jawa
+import pandas as pd
+from utils import lookup_kalender
 
-st.set_page_config(page_title="🧙 Primbon Jawa Lengkap", layout="centered")
+st.set_page_config(
+    page_title="🧙 Primbon Jawa Lengkap",
+    page_icon="🧙",
+    layout="centered",
+)
 
-st.title("🧙 Primbon Jawa Lengkap")
-st.subheader("Pilih Menu")
-st.markdown("---")
+st.markdown("""
+    <div style='text-align: center;'>
+        <h1 style='color: brown;'>🧙‍ Primbon Jawa Lengkap</h1>
+        <p style='font-size: 18px;'>Menyingkap rahasia weton, neptu, watak dan jodoh berdasarkan perhitungan Jawa kuno</p>
+        <hr style='border: 2px solid brown;'>
+    </div>
+""", unsafe_allow_html=True)
 
-# Form input
-with st.form("form_wetonan"):
-    nama = st.text_input("Nama lengkap", "")
-    tanggal_lahir = st.text_input("Tanggal lahir (dd/mm/yyyy)", "")
-    submit = st.form_submit_button("Hitung Weton")
+nama = st.text_input("Nama lengkap")
+tanggal_lahir = st.text_input("Tanggal lahir (dd/mm/yyyy)", placeholder="Contoh: 22/12/1979")
 
-if submit:
-    if not nama or not tanggal_lahir:
-        st.warning("Silakan isi nama dan tanggal lahir terlebih dahulu.")
-    else:
-        hasil = lookup_kalender_jawa(tanggal_lahir)
+if nama and tanggal_lahir:
+    try:
+        hasil = lookup_kalender(tanggal_lahir)
+        st.success(f"Halo {nama}! Kamu lahir pada hari **{hasil['hari']} {hasil['pasaran']}**")
 
-        if 'error' in hasil:
-            st.error(hasil['error'])
-        else:
-            st.success(f"Hasil Wetonan untuk **{nama}**:")
-            st.write(f"📅 Tanggal Lahir: {hasil['tanggal']}")
-            st.write(f"🗓️ Hari Jawa: {hasil['hari']} {hasil['pasaran']}")
-            st.write(f"🔢 Neptu: {hasil['neptu']}")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Hari", hasil['hari'])
+        with col2:
+            st.metric("Pasaran", hasil['pasaran'])
+
+        st.markdown("""
+            <div style='text-align: center; font-size: 20px; margin-top: 20px;'>
+                🔹 Jumlah Neptu: <b style='color: green;'>%d</b>
+            </div>
