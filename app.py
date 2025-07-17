@@ -34,3 +34,11 @@ if nama and tanggal_lahir:
             <div style='text-align: center; font-size: 20px; margin-top: 20px;'>
                 🔹 Jumlah Neptu: <b style='color: green;'>{hasil['neptu']}</b>
             </div>
+        """, unsafe_allow_html=True)
+
+        st.info("Silakan lanjutkan ke menu di samping kiri untuk melihat watak, kecocokan jodoh, tafsir mimpi, dan lainnya.")
+
+    except Exception as e:
+        st.error("Terjadi kesalahan: Pastikan format tanggal dd/mm/yyyy dan data kalender sudah diunggah.")
+else:
+    st.warning("Masukkan nama lengkap dan tanggal lahir untuk melihat hasil wetonmu.")
