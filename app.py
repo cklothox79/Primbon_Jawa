@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import hitung_weton
+from utils import lookup_kalender_jawa
 
 st.set_page_config(page_title="🧙 Primbon Jawa Lengkap", layout="centered")
 
@@ -17,7 +17,7 @@ if submit:
     if not nama or not tanggal_lahir:
         st.warning("Silakan isi nama dan tanggal lahir terlebih dahulu.")
     else:
-        hasil = hitung_weton(tanggal_lahir)
+        hasil = lookup_kalender_jawa(tanggal_lahir)
 
         if 'error' in hasil:
             st.error(hasil['error'])
