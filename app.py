@@ -1,36 +1,28 @@
 import streamlit as st
-from utils import hitung_weton, cari_jodoh, tafsir_mimpi
-from datetime import date
+from utils import hitung_weton
 
-st.set_page_config(page_title="Primbon Jawa", layout="centered")
+st.set_page_config(page_title="🧙 Primbon Jawa Lengkap", layout="centered")
+
 st.title("🧙 Primbon Jawa Lengkap")
+st.subheader("Pilih Menu")
+st.markdown("---")
 
-menu = st.selectbox("Pilih Menu", ["Wetonan", "Kecocokan Jodoh", "Tafsir Mimpi"])
+# Form input
+with st.form("form_wetonan"):
+    nama = st.text_input("Nama lengkap", "")
+    tanggal_lahir = st.text_input("Tanggal lahir (dd/mm/yyyy)", "")
+    submit = st.form_submit_button("Hitung Weton")
 
-if menu == "Wetonan":
-    nama = st.text_input("Nama lengkap")
-    tanggal_lahir = st.date_input(
-        "Tanggal lahir",
-        value=date(1990, 1, 1),
-        min_value=date(1950, 1, 1),
-        max_value=date.today()
-    )
-    if st.button("Hitung Weton"):
+if submit:
+    if not nama or not tanggal_lahir:
+        st.warning("Silakan isi nama dan tanggal lahir terlebih dahulu.")
+    else:
         hasil = hitung_weton(tanggal_lahir)
-        st.success(f"Weton: {hasil['weton']}")
-        st.info(f"Neptu: {hasil['neptu']} | Sifat: {hasil['sifat']}")
 
-elif menu == "Kecocokan Jodoh":
-    nama1 = st.text_input("Nama Anda")
-    weton1 = st.text_input("Weton Anda (cth: Senin Kliwon)")
-    nama2 = st.text_input("Nama Pasangan")
-    weton2 = st.text_input("Weton Pasangan")
-    if st.button("Cek Kecocokan"):
-        hasil = cari_jodoh(weton1, weton2)
-        st.success(f"Kecocokan: {hasil}")
-
-elif menu == "Tafsir Mimpi":
-    mimpi = st.text_input("Tuliskan mimpi Anda")
-    if st.button("Tafsirkan"):
-        hasil = tafsir_mimpi(mimpi)
-        st.success(f"Arti mimpi: {hasil}")
+        if 'error' in hasil:
+            st.error(hasil['error'])
+        else:
+            st.success(f"Hasil Wetonan untuk **{nama}**:")
+            st.write(f"📅 Tanggal Lahir: {hasil['tanggal']}")
+            st.write(f"🗓️ Hari Jawa: {hasil['hari']} {hasil['pasaran']}")
+            st.write(f"🔢 Neptu: {hasil['neptu']}")
