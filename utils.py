@@ -4,10 +4,10 @@ def hitung_weton(tanggal):
     # Pastikan input berupa datetime, bukan string
     if isinstance(tanggal, str):
         try:
-            tanggal = datetime.strptime(tanggal, "%Y/%m/%d")
+            tanggal = datetime.strptime(tanggal, "%d/%m/%Y")
         except ValueError:
             return {
-                'error': 'Format tanggal salah. Gunakan format YYYY/MM/DD.'
+                'error': 'Format tanggal salah. Gunakan format DD/MM/YYYY.'
             }
 
     # Daftar pasaran dan neptu-nya
